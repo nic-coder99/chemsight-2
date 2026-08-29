@@ -1,0 +1,6 @@
+{
+  "name": "ChemSight - SPM Chemistry Learning Platform",
+  "description": "ChemSight is an interactive SPM Chemistry learning platform featuring 3D visual apparatus and molecule models, chemical bond & apparatus drawing board with smart grading, hot exam quizzes, mistake revision vault, and classroom rooms.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
