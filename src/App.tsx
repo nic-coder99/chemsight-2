@@ -18,7 +18,6 @@ import { DrawingLab } from './components/DrawingLab';
 import { NotesViewer } from './components/NotesViewer';
 import { CorrectionVault } from './components/CorrectionVault';
 import { TeacherDashboard } from './components/TeacherDashboard';
-import { AiTutorDrawer } from './components/AiTutorDrawer';
 import { AuthProfileModal } from './components/AuthProfileModal';
 import { AuthScreen } from './components/AuthScreen';
 import {
@@ -461,9 +460,6 @@ export default function App() {
           <TeacherDashboard teacher={currentUser} />
         )}
       </main>
-
-      {/* Floating Mascot AI Tutor Drawer */}
-      <AiTutorDrawer user={currentUser} />
 
       {/* Auth & Profile Switcher Modal */}
       <AuthProfileModal

@@ -22,6 +22,85 @@ interface NotesViewerProps {
   onNavigateToDrawing?: (challengeId?: string) => void;
 }
 
+const HIGH_YIELD_SPM_TOPICS = [
+  {
+    id: 'salts',
+    chapter: 'Form 4: Acids, Bases & Salts',
+    title: 'Solubility Rules & Double Decomposition',
+    summary: 'Rules for soluble/insoluble salts and preparation methods required in SPM Paper 2 & Paper 3.',
+    keyPoints: [
+      'All NO₃⁻ (Nitrates) are SOLUBLE in water.',
+      'Insoluble Sulfates: PBC — Lead(II) sulfate (PbSO₄), Barium sulfate (BaSO₄), Calcium sulfate (CaSO₄).',
+      'Insoluble Chlorides: PAH — Lead(II) chloride (PbCl₂), Silver chloride (AgCl), Mercury chloride (Hg₂Cl₂).',
+      'Soluble Carbonates: SPA — Sodium (Na₂CO₃), Potassium (K₂CO₃), Ammonium ((NH₄)₂CO₃). All other carbonates are insoluble.',
+      'Insoluble salt preparation: Precipitation / Double decomposition method (mix 2 soluble aqueous solutions).',
+    ],
+    equations: [
+      'Pb(NO₃)₂(aq) + 2KI(aq) → PbI₂(s) + 2KNO₃(aq)  [Yellow precipitate]',
+      'Ba(NO₃)₂(aq) + Na₂SO₄(aq) → BaSO₄(s) + 2NaNO₃(aq)  [White precipitate]',
+      'AgNO₃(aq) + NaCl(aq) → AgCl(s) + NaNO₃(aq)  [White precipitate]',
+    ],
+    mnemonic: '💡 PBC for Sulfates (Plumbum, Barium, Calcium) & PAH for Chlorides (Plumbum, Aurum/Silver, Hydrargyrum)',
+  },
+  {
+    id: 'redox',
+    chapter: 'Form 5: Redox Equilibrium',
+    title: 'Standard Electrode Potential & Cell Voltage',
+    summary: 'Determining anode/cathode terminals, electron flow direction, and calculating E°cell.',
+    keyPoints: [
+      'More positive E° value: Undergoes reduction (acts as Cathode / Positive terminal).',
+      'More negative E° value: Undergoes oxidation (acts as Anode / Negative terminal).',
+      'Electron flow: Anode (negative terminal) → Cathode (positive terminal) through the external connecting wire.',
+      'Standard cell potential formula: E°cell = E°cathode - E°anode.',
+      'Reaction is spontaneous when E°cell > 0 V.',
+    ],
+    equations: [
+      'Anode (Oxidation): Zn(s) → Zn²⁺(aq) + 2e⁻  [E° = -0.76 V]',
+      'Cathode (Reduction): Cu²⁺(aq) + 2e⁻ → Cu(s)  [E° = +0.34 V]',
+      'Overall: Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s)  [E°cell = +0.34 - (-0.76) = +1.10 V]',
+    ],
+    mnemonic: '💡 AN OX & RED CAT: Anode = Oxidation, Reduction = Cathode. OIL RIG: Oxidation Is Loss, Reduction Is Gain of electrons.',
+  },
+  {
+    id: 'thermochem',
+    chapter: 'Form 5: Thermochemistry',
+    title: 'Heat of Precipitation & Neutralisation',
+    summary: 'Standard energy level diagrams, heat released (Q = mcθ), and molar heat calculations (ΔH).',
+    keyPoints: [
+      'Exothermic reaction: ΔH is negative (-). Temperature of surroundings rises.',
+      'Endothermic reaction: ΔH is positive (+). Temperature of surroundings drops.',
+      'Step 1: Calculate heat change Q = m × c × θ (where m = total volume in cm³ = mass in g, c = 4.2 J g⁻¹ °C⁻¹).',
+      'Step 2: Calculate number of moles n = (M × V) / 1000.',
+      'Step 3: Calculate Heat of reaction ΔH = ±(Q / n) / 1000 in kJ mol⁻¹.',
+      'Strong acid + strong alkali gives constant ΔH ≈ -57.3 kJ mol⁻¹ (H⁺ + OH⁻ → H₂O).',
+      'Weak acid/alkali releases less heat because part of the heat energy is absorbed to completely ionise the undissociated molecules.',
+    ],
+    equations: [
+      'H⁺(aq) + OH⁻(aq) → H₂O(l)  [ΔH = -57.3 kJ mol⁻¹]',
+      'Q = mcθ   |   n = (M × V) / 1000   |   ΔH = -(Q / n) kJ mol⁻¹',
+    ],
+    mnemonic: '💡 EXO releases heat (bonds forming, EXIT), ENDO absorbs heat (bonds breaking, ENTER).',
+  },
+  {
+    id: 'organic',
+    chapter: 'Form 5: Carbon Compounds',
+    title: 'Homologous Series, Esterification & Isomers',
+    summary: 'Functional groups, chemical properties, and IUPAC nomenclature rules for SPM Paper 2 Section B/C.',
+    keyPoints: [
+      'Alkanes: CnH2n+2 (Single covalent bonds, substitution with UV light).',
+      'Alkenes: CnH2n (C=C double bond, addition reactions, decolourises brown bromine water).',
+      'Alcohols: CnH2n+1OH (Hydroxyl group -OH, combustion, oxidation by acidified K₂Cr₂O₇ to form carboxylic acids).',
+      'Carboxylic Acids: CnH2n+1COOH (Carboxyl group -COOH, reacts with metals, carbonates, bases).',
+      'Esters: Alcohol + Carboxylic acid (in presence of concentrated H₂SO₄ catalyst) → Ester + Water. Sweet fruity smell.',
+    ],
+    equations: [
+      'C₂H₅OH + CH₃COOH ⇌ [conc. H₂SO₄, reflux] CH₃COOC₂H₅ (Ethyl ethanoate) + H₂O',
+      'C₂H₅OH + 2[O] → [acidified KMnO₄/H⁺] CH₃COOH + H₂O',
+    ],
+    mnemonic: '💡 Ester naming: Alcohol gives alkyl first-part (Ethanol → Ethyl), Acid gives second-part (Ethanoic acid → ethanoate).',
+  },
+];
+
 export const NotesViewer: React.FC<NotesViewerProps> = ({
   initialModelId,
   onNavigateToDrawing,
@@ -29,8 +108,9 @@ export const NotesViewer: React.FC<NotesViewerProps> = ({
   const [selectedModel, setSelectedModel] = useState<Model3DData>(
     MODELS_3D.find((m) => m.id === initialModelId) || MODELS_3D[0]
   );
-  const [activeTab, setActiveTab] = useState<'3d_models' | 'qualitative_analysis' | 'ai_note_maker'>('3d_models');
+  const [activeTab, setActiveTab] = useState<'3d_models' | 'qualitative_analysis' | 'spm_formulas'>('3d_models');
   const [modelFormFilter, setModelFormFilter] = useState<'all' | 4 | 5>('all');
+  const [selectedTopicId, setSelectedTopicId] = useState<string>('salts');
 
   // Filtered 3D Models
   const filteredModels = MODELS_3D.filter((m) => {
@@ -39,54 +119,7 @@ export const NotesViewer: React.FC<NotesViewerProps> = ({
     return chap?.form === modelFormFilter;
   });
 
-  // AI Note Generator State
-  const [aiTopic, setAiTopic] = useState('Acids, Bases and Salt Preparation');
-  const [aiFocus, setAiFocus] = useState('Soluble vs Insoluble Salts & Qualitative Tests');
-  const [isGeneratingNotes, setIsGeneratingNotes] = useState(false);
-  const [generatedNote, setGeneratedNote] = useState<any>(null);
-
-  const handleGenerateAiNotes = async () => {
-    setIsGeneratingNotes(true);
-    try {
-      const res = await fetch('/api/gemini/generate-notes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          topic: aiTopic,
-          focusArea: aiFocus,
-          difficulty: 'SPM KSSM High-Yield',
-        }),
-      });
-
-      const data = await res.json();
-      setGeneratedNote(data);
-    } catch (err) {
-      console.error(err);
-      // Fallback
-      setGeneratedNote({
-        title: `SPM Fast Revision: ${aiTopic}`,
-        summary: 'Essential concepts, balanced chemical equations, and examination traps for scoring maximum marks.',
-        keyPoints: [
-          'All nitrates are soluble in water (NO3-).',
-          'Insoluble sulfates: PBC (Lead, Barium, Calcium sulfate).',
-          'Insoluble chlorides: PAH (Lead, Silver, Mercury chloride).',
-          'Insoluble salts are prepared via Double Decomposition / Precipitation reaction.',
-        ],
-        equations: [
-          'Pb(NO₃)₂(aq) + 2KI(aq) → PbI₂(s) + 2KNO₃(aq) [Bright yellow ppt]',
-          'BaCl₂(aq) + Na₂SO₄(aq) → BaSO₄(s) + 2NaCl(aq) [White ppt]',
-        ],
-        observations: [
-          'Cu²⁺ with excess NH₃: Royal dark blue solution [Cu(NH₃)₄]²⁺.',
-          'Fe²⁺: Dirty green precipitate, oxidises to brown Fe³⁺ on standing.',
-        ],
-        mnemonic: '💡 PBC for Sulfates (Plumbum, Barium, Calcium are INSOLUBLE)',
-        hotExamTip: 'Always write balanced ionic equations with correct state symbols (s, aq, g, l)!',
-      });
-    } finally {
-      setIsGeneratingNotes(false);
-    }
-  };
+  const activeTopic = HIGH_YIELD_SPM_TOPICS.find((t) => t.id === selectedTopicId) || HIGH_YIELD_SPM_TOPICS[0];
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6">
@@ -103,7 +136,7 @@ export const NotesViewer: React.FC<NotesViewerProps> = ({
             Chemistry Smart Visual Notes
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 font-medium">
-            Explore 360° interactive 3D molecular geometries, apparatus setups, cation/anion precipitation tables, and AI revision mindmaps.
+            Explore 360° interactive 3D molecular geometries, apparatus setups, cation/anion precipitation tables, and high-yield SPM revision guides.
           </p>
         </div>
 
@@ -130,13 +163,13 @@ export const NotesViewer: React.FC<NotesViewerProps> = ({
           </button>
 
           <button
-            onClick={() => setActiveTab('ai_note_maker')}
+            onClick={() => setActiveTab('spm_formulas')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
-              activeTab === 'ai_note_maker' ? 'bg-white text-indigo-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'spm_formulas' ? 'bg-white text-indigo-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-orange-500" />
-            <span>AI Note Maker 🤖</span>
+            <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
+            <span>SPM High-Yield Notes</span>
           </button>
         </div>
       </div>
@@ -329,104 +362,81 @@ export const NotesViewer: React.FC<NotesViewerProps> = ({
         </div>
       )}
 
-      {/* Tab 3: AI Smart Note Maker */}
-      {activeTab === 'ai_note_maker' && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-indigo-50 shadow-sm space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-indigo-200">
-              🤖
-            </div>
-            <div>
-              <h3 className="text-lg font-black text-indigo-900">
-                Dr. Molecule's AI Chemistry Note Synthesizer
-              </h3>
-              <p className="text-xs text-slate-500 font-medium">
-                Type any SPM chemistry topic and focus area to generate a cute, high-yield revision summary with mnemonics & exam traps!
-              </p>
-            </div>
+      {/* Tab 3: SPM High-Yield Notes & Formula Guide */}
+      {activeTab === 'spm_formulas' && (
+        <div className="space-y-6">
+          {/* Topic Pills */}
+          <div className="flex flex-wrap gap-2">
+            {HIGH_YIELD_SPM_TOPICS.map((topic) => (
+              <button
+                key={topic.id}
+                onClick={() => setSelectedTopicId(topic.id)}
+                className={`px-4 py-2 rounded-2xl text-xs font-bold transition cursor-pointer flex items-center gap-2 ${
+                  selectedTopicId === topic.id
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
+                    : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                }`}
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>{topic.title}</span>
+              </button>
+            ))}
           </div>
 
-          {/* Form */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">Chemistry Chapter / Topic:</label>
-              <input
-                type="text"
-                value={aiTopic}
-                onChange={(e) => setAiTopic(e.target.value)}
-                placeholder="e.g. Redox Equilibrium, Voltaic Cells, Esterification"
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:outline-indigo-500"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">Focus Area / Sub-topic:</label>
-              <input
-                type="text"
-                value={aiFocus}
-                onChange={(e) => setAiFocus(e.target.value)}
-                placeholder="e.g. Standard Electrode Potential E0 and Electron Flow"
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-800 focus:outline-indigo-500"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-end">
-            <button
-              onClick={handleGenerateAiNotes}
-              disabled={isGeneratingNotes}
-              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-black rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center gap-2 cursor-pointer"
-            >
-              <Sparkles className={`w-4 h-4 ${isGeneratingNotes ? 'animate-spin' : ''}`} />
-              <span>{isGeneratingNotes ? 'Synthesizing Notes...' : 'Generate SPM Revision Note'}</span>
-            </button>
-          </div>
-
-          {/* Generated Note Output */}
-          {generatedNote && (
-            <div className="p-6 bg-indigo-50/40 border-2 border-indigo-100 rounded-3xl space-y-4 animate-fadeIn">
-              <div className="flex items-center justify-between pb-3 border-b border-indigo-100">
-                <h4 className="text-base font-black text-indigo-900">{generatedNote.title}</h4>
-                <span className="px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-full">
-                  AI Revision Card
+          {/* Active Topic Card */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-indigo-50 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-2">
+              <div>
+                <span className="px-2.5 py-0.5 bg-indigo-100 text-indigo-800 text-[11px] font-bold rounded-full">
+                  {activeTopic.chapter}
                 </span>
+                <h3 className="text-xl font-black text-indigo-900 mt-1">
+                  {activeTopic.title}
+                </h3>
               </div>
-
-              <p className="text-xs text-slate-700 leading-relaxed font-medium">
-                {generatedNote.summary}
-              </p>
-
-              {/* Key Points */}
-              {generatedNote.keyPoints?.length > 0 && (
-                <div className="space-y-1.5">
-                  <h5 className="text-xs font-black text-slate-800 uppercase tracking-wider">Key Exam Points:</h5>
-                  <ul className="text-xs text-slate-700 space-y-1 pl-4 list-disc font-medium">
-                    {generatedNote.keyPoints.map((pt: string, i: number) => (
-                      <li key={i}>{pt}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Equations */}
-              {generatedNote.equations?.length > 0 && (
-                <div className="p-3 bg-slate-900 text-indigo-300 font-mono text-xs rounded-2xl space-y-1">
-                  <span className="text-[10px] text-slate-400 font-bold uppercase block">Chemical Equations:</span>
-                  {generatedNote.equations.map((eq: string, i: number) => (
-                    <div key={i}>{eq}</div>
-                  ))}
-                </div>
-              )}
-
-              {/* Mnemonic & Tip */}
-              {generatedNote.mnemonic && (
-                <div className="p-3 bg-orange-50 border border-orange-200 rounded-2xl text-xs font-bold text-orange-900 flex items-center gap-2">
-                  <span>💡</span>
-                  <span>{generatedNote.mnemonic}</span>
-                </div>
-              )}
+              <span className="text-xs font-bold text-slate-400">SPM KSSM Syllabus Standard</span>
             </div>
-          )}
+
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
+              {activeTopic.summary}
+            </p>
+
+            {/* Key Exam Points */}
+            <div className="space-y-2">
+              <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                <span>Key Exam Marking Points:</span>
+              </h4>
+              <ul className="space-y-2 pl-2">
+                {activeTopic.keyPoints.map((pt, i) => (
+                  <li key={i} className="text-xs text-slate-700 font-medium flex items-start gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                    <span className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                      {i + 1}
+                    </span>
+                    <span className="leading-relaxed">{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Chemical Equations */}
+            <div className="p-4 bg-slate-900 text-indigo-200 font-mono text-xs rounded-2xl space-y-2">
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
+                Standard SPM Equations & Calculations:
+              </span>
+              {activeTopic.equations.map((eq, i) => (
+                <div key={i} className="text-emerald-300 font-semibold tracking-wide bg-slate-800/80 p-2 rounded-lg">
+                  {eq}
+                </div>
+              ))}
+            </div>
+
+            {/* Mnemonic & Trap Warning */}
+            <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-xs font-bold text-amber-900 flex items-center gap-2.5 shadow-2xs">
+              <Lightbulb className="w-5 h-5 text-amber-600 shrink-0" />
+              <span>{activeTopic.mnemonic}</span>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -776,7 +776,7 @@ export const CUTE_AVATARS = [
   { id: 'pip', name: 'Proton Pip', icon: '🌟', color: 'bg-pink-100 border-pink-300 text-pink-600', role: 'student', title: 'Mole Master' },
   { id: 'teacher_aisyah', name: 'Cikgu Aisyah', icon: '👩‍🏫', color: 'bg-rose-100 border-rose-300 text-rose-600', role: 'teacher', title: 'Head of Chemistry Dept' },
   { id: 'teacher_tan', name: 'Mr. Tan', icon: '👨‍🏫', color: 'bg-indigo-100 border-indigo-300 text-indigo-600', role: 'teacher', title: 'SPM Master Examiner' },
-  { id: 'dr_molecule', name: 'Dr. Molecule', icon: '🧙‍♂️', color: 'bg-teal-100 border-teal-300 text-teal-600', role: 'teacher', title: 'AI Chemistry Guru' },
+  { id: 'teacher_lim', name: 'Cikgu Lim', icon: '👨‍🏫', color: 'bg-teal-100 border-teal-300 text-teal-600', role: 'teacher', title: 'Senior Chemistry Teacher' },
 ];
 
 export const MOCK_STUDENTS = [
