@@ -61,6 +61,7 @@ export const BondDrawingCanvas: React.FC<BondDrawingCanvasProps> = ({
   const [showGrid, setShowGrid] = useState(true);
   const [isEvaluated, setIsEvaluated] = useState(false);
   const [showModelAnswer, setShowModelAnswer] = useState(false);
+  const stampsTrackRef = useRef<{ stamp: string; x: number; y: number }[]>([]);
 
   // Evaluation results
   const [evalResult, setEvalResult] = useState<{
@@ -124,6 +125,7 @@ export const BondDrawingCanvas: React.FC<BondDrawingCanvasProps> = ({
 
     if (tool === 'stamp') {
       applyStamp(ctx, x, y, selectedStamp);
+      stampsTrackRef.current.push({ stamp: selectedStamp, x, y });
       setHasDrawn(true);
       return;
     }
@@ -253,6 +255,7 @@ export const BondDrawingCanvas: React.FC<BondDrawingCanvasProps> = ({
     if (!ctx) return;
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    stampsTrackRef.current = [];
     setHasDrawn(false);
     setIsEvaluated(false);
     setEvalResult(null);
@@ -262,31 +265,89 @@ export const BondDrawingCanvas: React.FC<BondDrawingCanvasProps> = ({
   const handleEvaluate = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
     const dataUrl = canvas.toDataURL('image/png');
 
-    // Simulate standard SPM Examiner grading for bond drawing
-    const isHighQuality = hasDrawn;
-    const calculatedScore = isHighQuality ? (bondType === 'ionic' ? 96 : 94) : 40;
-    const strengths = [
-      'Identified correct chemical bonding type (' + (bondType === 'ionic' ? 'Electrostatic attraction' : 'Covalent electron sharing') + ')',
-      'Plotted required central and outer atom representations',
-      'Demonstrated octet fulfillment for stable electron configuration',
-    ];
-    const improvements = [
-      'Ensure all unshared lone pairs on peripheral atoms are clearly paired (e.g. 6 valence electrons on Cl)',
-      'Maintain clear spacing between electron dots (•) and crosses (✕)',
-    ];
+    // Analyze canvas pixels
+    const width = canvas.width;
+    const height = canvas.height;
+    const imgData = ctx.getImageData(0, 0, width, height);
+    const data = imgData.data;
+
+    let nonWhitePixels = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] > 30 && (data[i] < 240 || data[i + 1] < 240 || data[i + 2] < 240)) {
+        nonWhitePixels++;
+      }
+    }
+
+    const stamps = stampsTrackRef.current;
+    const dotsCount = stamps.filter((s) => s.stamp === '•').length;
+    const crossesCount = stamps.filter((s) => s.stamp === '✕').length;
+    const totalElectrons = dotsCount + crossesCount;
+    const atomStamps = stamps.filter((s) => !['•', '✕', 'Covalent Shell', 'Single Bond', 'Shell', 'Bond'].includes(s.stamp));
+
+    // If completely blank or empty
+    if (nonWhitePixels < 300 && stamps.length === 0) {
+      const result = {
+        score: 0,
+        maxScore: 100,
+        feedback: 'The canvas is empty. Please draw or stamp the atoms, electron shells, and dots/crosses before submitting.',
+        isPassed: false,
+        strengths: [],
+        improvements: [
+          'Place the central and outer atom symbols',
+          'Add electron shells and shared/valence electron dots and crosses',
+        ],
+      };
+      setEvalResult(result);
+      setIsEvaluated(true);
+      if (onDrawingEvaluated) {
+        onDrawingEvaluated({ ...result, dataUrl });
+      }
+      return;
+    }
+
+    let calculatedScore = 40;
+    const strengths: string[] = [];
+    const improvements: string[] = [];
+
+    if (atomStamps.length > 0 || nonWhitePixels > 2500) {
+      calculatedScore += 25;
+      strengths.push('Identified required atomic symbols and bonding centers');
+    } else {
+      improvements.push('Place or draw the atom symbols (e.g. C, Cl, O, H, etc.)');
+    }
+
+    if (totalElectrons >= 4 || nonWhitePixels > 3500) {
+      calculatedScore += 25;
+      strengths.push('Placed electron arrangement showing valence/shared electrons');
+    } else {
+      improvements.push('Add electron dots (•) and crosses (✕) to show electron arrangement');
+    }
+
+    if (stamps.some((s) => s.stamp.includes('Shell') || s.stamp.includes('Bond') || s.stamp.includes('[')) || nonWhitePixels > 4000) {
+      calculatedScore += 10;
+      strengths.push('Correct chemical bonding format (' + (bondType === 'ionic' ? 'Ionic charge brackets' : 'Covalent sharing shells') + ')');
+    }
+
+    calculatedScore = Math.min(100, calculatedScore);
+    const isPassed = calculatedScore >= 70;
 
     const result = {
       score: calculatedScore,
       maxScore: 100,
       feedback:
         calculatedScore >= 80
-          ? 'Excellent SPM Paper 2 standard drawing! Electron arrangement fulfills octet/duplet and bond configuration clearly.'
+          ? '🌟 Excellent SPM Standard! Electron arrangement fulfills octet/duplet and bond configuration clearly.'
+          : calculatedScore >= 70
+          ? 'Passed SPM Standard. Check suggestions below to achieve full marks.'
           : 'Incomplete drawing. Please make sure all electron shells, dots/crosses, and atom symbols are placed.',
-      isPassed: calculatedScore >= 70,
-      strengths,
-      improvements,
+      isPassed,
+      strengths: strengths.length > 0 ? strengths : ['Attempted bond diagram layout'],
+      improvements: improvements.length > 0 ? improvements : ['Maintain clear spacing between electron dots and crosses'],
     };
 
     setEvalResult(result);
